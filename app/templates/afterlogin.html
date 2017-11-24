@@ -1,0 +1,150 @@
+<!-- 
+	@Title: After Login Template. Common For all types of login; Handeled display dipending on type of user obtails from Django's UserGroup.
+	 @Author: Atul
+	
+-->
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		{% include 'college-meta.html' %}
+		<link href="{%static 'css/myprofile.css' %}" rel='stylesheet' type='text/css' />
+		<script src="{% static 'js/user.js' %}"></script>
+	</head>
+	<body ng-app="userapp">
+		<div class="col-lg-6 col-sm-6" style="width: 100%" ng-controller="UserController" ng-init="get_user_details()">
+		    <div class="card hovercard">
+		        <div class="card-background">
+		            <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
+		            <!-- http://lorempixel.com/850/280/people/9/ -->
+		        </div>
+		        <div class="useravatar">
+		            <img alt="" ng-src="{[{profile_details.user_profile_pic1}]}">
+		        </div>
+		        <div class="card-info"> <span class="card-title">{[{profile_details.user_name}]}</span><br/>
+										<span class="card-title">{[{profile_details.usergroup}]}</span><br />
+										<a class="card-title" style="float: right;margin-left: 10px;color: blue;" href="javascript:void(0);" ng-click="logout()">Log out</a>	
+										<a class="card-title" style="float: right;color: blue;" href="/profileedit?id={[{profile_details.userprofile_id}]}" >Edit Profile</a>	
+		        </div>
+		    </div>
+		    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+		        <div class="btn-group" role="group">
+		            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+		                <div class="hidden-xs">Personal Info</div>
+		            </button>
+		        </div>
+		        <div class="btn-group" role="group" ng-if="profile_details.usergroup=='staff' || profile_details.usergroup=='Staff' " ng-init="get_teachres_data()">
+		            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+		                <div class="hidden-xs">Teachers</div>
+		            </button>
+		        </div>
+		        <div class="btn-group" role="group" ng-if="profile_details.usergroup!='student' && profile_details.usergroup!='Student'" ng-init="get_students_data('all')">
+		            <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+		                <div class="hidden-xs">Students</div>
+		            </button>
+		        </div>
+		    </div>
+		
+		        <div class="well">
+		      <div class="tab-content">
+		        <div class="tab-pane fade in active" id="tab1">
+		          <ul>
+		          	<li>
+		          		<strong>Address: </strong> <span ng-if="profile_details.useraddress">{[{profile_details.useraddress}]}</span>
+		          		<span ng-if="!profile_details.address">Not set</span>
+		          	</li>
+		          	
+		          	<li> 
+		          		<strong>Possition: </strong> <span ng-if="profile_details.userdesignation">{[{profile_details.userdesignation}]}</span>
+		          		<span ng-if="!profile_details.userdesignation">Not set</span>
+		          	</li>
+		          	
+		          	<li> 
+		          		<strong>Education: </strong> <span ng-if="profile_details.usereducation">{[{profile_details.usereducation}]}</span>
+		          		<span ng-if="!profile_details.usereducation">Not set</span>
+		          	</li>
+		          	
+		          	<li> 
+		          		<strong>Email: </strong> <span ng-if="profile_details.useremail_id">{[{profile_details.useremail_id}]}</span>
+		          		<span ng-if="!profile_details.useremail_id">Not set</span>
+		          	</li>
+		          	
+		          	<li>
+		          		<strong>About Me: </strong> <span ng-if="profile_details.userabout_info">{[{profile_details.userabout_info}]}</span>
+		          		<span ng-if="!profile_details.userabout_info">Not set</span>
+		          	</li>
+		          	
+		          	<li>
+		          		<strong>Time table: </strong>	<span>Not set</span>
+		          	</li>
+		          	
+		          	<li>
+		          		<strong>Resent Activities: </strong>	
+		          		<span>1) Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br/>
+		          		 	  2) Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book<br/>
+		          		 	  3) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br/>	
+		          		 	  4) Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br/>
+		          		 	  5) Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book<br/>
+		          		 	  5) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br/>	
+		          		</span>
+		          	</li>
+		          	
+		          </ul>
+		        </div>
+		        <div class="tab-pane fade in" id="tab2">
+		          <h3>Teachaers details of Institute</h3>
+		          <input type="text" placeholder="Search" id="search_id1" name='search_text'/>
+		          <button type="submit" ng-click="search('teacher')">search</button>
+		          <button type="submit" ng-click="search('all')">reset</button>
+		          <table style="width:100%">
+					  <tr>
+					    <th>Teacher Name</th>
+					    <th>Designation</th>
+					    <th>Education</th>
+					    <th>Class Incahrge Of</th> 
+					    <th>Address</th> 
+					    <th>Action</th>
+					  </tr>
+					  
+						  <tr ng-repeat="teacher in teachersdetails">
+						    <td>{[{teacher.user_name}]}</td>
+						    <td>{[{teacher.userdesignation}]}</td> 
+						    <td>{[{teacher.usereducation}]}</td>
+						    <td></td>
+						    <td>{[{teacher.useraddress}]}</td>
+						    <td><a href="/profileedit?id={[{teacher.userprofile_id}]}">edit</a></td>
+						  </tr>
+					  
+				</table>
+		        </div>
+		        <div class="tab-pane fade in" id="tab3">
+		          <h3>Students details of Institute</h3>
+		          <input type="text" placeholder="Search" id="search_id2" name='search_text'/>
+		          <button type="submit" ng-click="search('student')">search</button>
+		          <button type="submit" ng-click="search('all')">reset</button>
+		          <table style="width:100%">
+					  <tr>
+					    <th>Student Name</th>
+					    <th>Class</th>
+					    <th>Class Representative Of</th> 
+					    <th>Address</th> 
+					    <th>Action</th>
+					  </tr>
+					  
+					  <tr ng-repeat="student in studentsdetails">
+					    <td>{[{student.user_name}]}</td>
+					    <td>{[{student.userclass}]}</td> 
+					    <td>4th</td>
+					    <td>{[{student.useraddress}]}</td>
+					    <td><a href="/profileedit?id={[{student.userprofile_id}]}">edit</a></td>
+					  </tr>
+				</table>
+		        </div>
+		      </div>
+		    </div>
+		    
+		 </div>
+	    
+	 </body>   
+	            
+</html>    
