@@ -3,6 +3,7 @@
  @Author: Atul Chaudhari
  @Purpose : College app view
  @dated : 23rd Nov 2017 
+ @update date: 5th Jan 2022
 """
 from __future__ import unicode_literals
 
